@@ -39,10 +39,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     uv -= .5;
     uv.x *= iResolution.x / iResolution.y;
     
-    // bigger units for kicks and stuff
-    uv *= 10.0;
-    
-    vec3 cam = vec3(0., 0., 20.);
+    vec3 cam = vec3(0., 0., 2.);
     vec3 dir = vec3(uv.x, uv.y, 0) - cam;
     
     // vec3 point = vec3(0., 0., cos(iTime) + 3.);
@@ -50,7 +47,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec3 dirn = normalize(dir);
  
     float b = 2. * dot(dirn, cam);
-    float c = dot(cam, cam) - 10.;	// radius 2
+    float c = dot(cam, cam) - .1;	// radius 2
     
     float f = discriminant(b, c);
     
@@ -85,10 +82,10 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     }
     
     // funky atmosphere type setup!
-    if(f < 0. && f > - 10.)
-        col.r = 1. + f * .1;
-    else if(f > 0. && f < .5)
-        col.r = (col.r + (1. - f)) * .5;
+    if(f < 0. && f > - .1)
+        col.r = 1. + (10. * f);
+    else if(f >= 0. && f < .05)
+        col.r = (col.r + 1. - (f * 20.)) * 1.;
     
 	fragColor = vec4(col.r, col.g, col.b, 1.);
 }
